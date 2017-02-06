@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="jp.co.visualize.baseproject"
+	android:installLocation="preferExternal"
+	android:theme="@android:style/Theme.NoTitleBar"
+    android:versionCode="1"
+    android:versionName="1.0">
+ 
+    <uses-sdk android:minSdkVersion="14" />
+
+    <supports-screens
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="true"
+        android:anyDensity="true"/>
+
+    <application
+		android:icon="@drawable/app_icon"
+        android:label="@string/app_name"
+        android:debuggable="false">
+        
+        <!-- 起動時の設定 ここから -->
+        <activity android:name="jp.co.visualize.unitypush.PushActivity" android:label="@string/app_name" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen">
+        </activity>
+        <!-- 起動時の設定 ここまで -->
+        
+        <!-- Unity設定 ここから -->
+        <activity android:name="com.unity3d.player.UnityPlayerActivity"
+            android:label="@string/app_name"
+            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- URLScheme設定 ここから -->
+             <intent-filter>
+                <data android:scheme="baseproject" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+            <!-- URLScheme設定 ここまで -->
+        </activity>
+        <activity android:name="com.unity3d.player.UnityPlayerNativeActivity"
+                  android:label="@string/app_name">
+            <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
+            <meta-data android:name="unityplayer.ForwardNativeEventsToDalvik" android:value="true" />
+        </activity>
+        <activity android:name="com.unity3d.player.UnityPlayerProxyActivity">
+        </activity>
+        <!-- Unity設定 ここまで -->
+        
+        <!-- Prime31設定 ここから -->
+        <!-- <activity android:name="com.prime31.GoogleIABProxyActivity" android:configChanges="orientation"></activity> -->
+        <!-- Prime31設定 ここまで -->
+        
+        <!-- Push設定 ここから -->
+        <receiver
+            android:name="jp.co.visualize.unitypush.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="jp.co.visualize.unitypush" />
+            </intent-filter>
+        </receiver>
+        <service android:name="jp.co.visualize.unitypush.GcmIntentService" />
+        <receiver android:name="jp.co.visualize.unitypush.Notifier" />
+        <!-- Push設定 ここまで -->
+        
+        <!-- Root権限による起動設定 ここから -->
+        <meta-data android:name="ROOT_MESSAGE_STRING" android:value="root権限のある状態では起動できません" />
+        <!-- Root権限による起動設定 ここまで -->
+        
+    </application>
+    
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <permission
+        android:name="jp.co.visualize.baseproject.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="jp.co.visualize.baseproject.permission.C2D_MESSAGE" />
+
+</manifest>
